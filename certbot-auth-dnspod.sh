@@ -36,7 +36,7 @@ if [ -z "$API_TOKEN" ]; then
     API_TOKEN="$DNSPOD_TOKEN"
 fi
 
-PARAMS="login_token=$API_TOKEN&format=json"
+PARAMS="login_token=$API_TOKEN&format=json&lang=en"
 
 echo "\
 CERTBOT_DOMAIN: $CERTBOT_DOMAIN
@@ -61,7 +61,7 @@ if [ "$1" = "clean" ]; then
 else
     RECORD_ID=$(curl -s -X POST "https://dnsapi.cn/Record.Create" \
         -H "User-Agent: $USER_AGENT" \
-        -d "$PARAMS&domain=$DOMAIN&sub_domain=$TXHOST&record_type=TXT&value=$CERTBOT_VALIDATION&record_line=默认" \
+        -d "$PARAMS&domain=$DOMAIN&sub_domain=$TXHOST&record_type=TXT&value=$CERTBOT_VALIDATION&record_line=default" \
     | python -c "import sys,json;ret=json.load(sys.stdin);print(ret.get('record',{}).get('id',ret.get('status',{}).get('message','error')))")
 
     # Save info for cleanup
